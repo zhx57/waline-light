@@ -9,7 +9,6 @@
 ![Docker Image Size](https://img.shields.io/docker/image-size/zhx57/waline-light)
 ![Docker Image Version](https://img.shields.io/docker/v/zhx57/waline-light?label=docker)
 
-English | [简体中文](./README.zh-CN.md)
 
 > A high-performance Waline comment system implemented in Rust.
 
