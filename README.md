@@ -1,13 +1,13 @@
-# waline-mini
+# waline-light
 
-![GitHub Release](https://img.shields.io/github/v/release/JQiue/waline-mini)
-![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/JQiue/waline-mini)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/t/JQiue/waline-mini)
-![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/JQiue/waline-mini/total)
-![GitHub License](https://img.shields.io/github/license/JQiue/waline-mini)
-![Code Lines](https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/JQiue/waline-mini/badge?filter=.rs$)
-![Docker Image Size](https://img.shields.io/docker/image-size/jqiue/waline-mini)
-![Docker Image Version](https://img.shields.io/docker/v/jqiue/waline-mini?label=docker)
+![GitHub Release](https://img.shields.io/github/v/release/zhx57/waline-light)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/zhx57/waline-light)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/t/zhx57/waline-light)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/zhx57/waline-light/total)
+![GitHub License](https://img.shields.io/github/license/zhx57/waline-light)
+![Code Lines](https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/zhx57/waline-light/badge?filter=.rs$)
+![Docker Image Size](https://img.shields.io/docker/image-size/zhx57/waline-light)
+![Docker Image Version](https://img.shields.io/docker/v/zhx57/waline-light?label=docker)
 
 English | [简体中文](./README.zh-CN.md)
 
@@ -15,9 +15,9 @@ English | [简体中文](./README.zh-CN.md)
 
 ## Introduction
 
-Waline-mini is a high-performance Rust implementation of the Waline comment system, using 95% less memory than its Node.js counterpart and serving as an efficient alternative for resource-constrained servers.
+Waline-light is a high-performance Rust implementation of the Waline comment system, using 95% less memory than its Node.js counterpart and serving as an efficient alternative for resource-constrained servers.
 
-In my Ubuntu server, the waline-mini requires only about `5612Kb=5.48MB` of memory
+In my Ubuntu server, the waline-light requires only about `5612Kb=5.48MB` of memory
 
 ![mem](./assets/image.png)
 
@@ -52,7 +52,7 @@ In my Ubuntu server, the waline-mini requires only about `5612Kb=5.48MB` of memo
 
 ### Run from an executable file
 
-From [GitHub Releases](https://github.com/JQiue/waline-mini/releases) to download the binary file is appropriate for your platform. Examples of Linux use:
+From [GitHub Releases](https://github.com/zhx57/waline-light/releases) to download the binary file is appropriate for your platform. Examples of Linux use:
 
 ```bash
 # Setting environment variables
@@ -62,7 +62,7 @@ export SITE_NAME=your_site_name
 export SITE_URL=your_site_url
 
 # Start
-./waline-mini
+./waline-light
 ```
 
 ### Docker
@@ -70,8 +70,8 @@ export SITE_URL=your_site_url
 ```yml
 services:
   waline:
-    image: jqiue/waline-mini:latest
-    container_name: waline-mini
+    image: zhx57/waline-light:latest
+    container_name: waline-light
     ports:
       - "8360:8360"
     volumes:
@@ -92,13 +92,13 @@ if you want to use other databases, you only need to add `-e DATABASE_URL` envir
 
 ### Shuttle
 
-waline-mini supports deployment on Shuttle by first cloning the `shuttle` branch to the local using the following command
+waline-light supports deployment on Shuttle by first cloning the `shuttle` branch to the local using the following command
 
 ```sh
-git clone -b shuttle https://github.com/JQiue/waline-mini.git
+git clone -b shuttle https://github.com/zhx57/waline-light.git
 ```
 
-Then, create a `.shuttle.env` environment variable in the project root to configure waline-mini
+Then, create a `.shuttle.env` environment variable in the project root to configure waline-light
 
 Finally, in accordance with the [Shuttle](https://console.shuttle.dev/login) steps for deployment
 
@@ -106,11 +106,11 @@ Finally, in accordance with the [Shuttle](https://console.shuttle.dev/login) ste
 
 When LeanCloud is used to pull the warehouse directly for deployment, the branch needs to enter "leancloud"
 
-If SQLite is used as the data store, the environment variable `DATABASE_URL` should be filled with `sqlite://./waline.sqlite? mode=rw`. When deploying with LeanCloud, a new SQLite file is included each time, so it is important to export the data before redeployment and import the data after redeployment when upgrading the waline-mini for redeployment
+If SQLite is used as the data store, the environment variable `DATABASE_URL` should be filled with `sqlite://./waline.sqlite? mode=rw`. When deploying with LeanCloud, a new SQLite file is included each time, so it is important to export the data before redeployment and import the data after redeployment when upgrading the waline-light for redeployment
 
 ## Configuration
 
-Configure waline-mini with environment variables:
+Configure waline-light with environment variables:
 
 | Environment variable   | Description                                                                                                                                                                                 | Require | Default        |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | -------------- |
@@ -139,14 +139,14 @@ Configure waline-mini with environment variables:
 | DISABLE_AUTHORE_NOTIFY | wether disable author notification                                                                                                                                                          |         | `false`        |
 | DISABLE_REGION         | wether hide commenter's region. Default value is false                                                                                                                                      |         | `false`        |
 | DISABLE_USERAGENT      | wether hide the user agent of commenter. Default value is false                                                                                                                             |         | `false`        |
-| IP2REGION_DB           | customized IP query library path. The waline-mini does not contain xdb files and needs to be provided manually                                                                              |         |                |
+| IP2REGION_DB           | customized IP query library path. The waline-light does not contain xdb files and needs to be provided manually                                                                              |         |                |
 
 ## FAQ
 
 ### How to migrate data from the original Waline?
 
 1. Export JSON from the original waline background administration page
-2. Import JSON on the waline-mini background administration page
+2. Import JSON on the waline-light background administration page
 
 ### Which databases are supported?
 
@@ -155,3 +155,7 @@ SQLite and MySQL/MariaDB are supported. Compile features can be added to support
 ## References
 
 + [waline-api](https://waline.js.org/next/api/)
+
+## Author
+
+zhx57
