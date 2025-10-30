@@ -1,0 +1,60 @@
+name: Release
+
+permissions:
+  contents: write
+
+on:
+  push:
+    tags:
+      - v[0-9].[0-9]*.*
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: taiki-e/create-gh-release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          changelog: CHANGELOG.md
+  upload-assets:
+    needs: create-release
+    strategy:
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+          - target: x86_64-unknown-linux-musl
+            os: ubuntu-latest
+          - target: x86_64-apple-darwin
+            os: macos-latest
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        run: rustup update stable
+      - uses: taiki-e/upload-rust-binary-action@v1
+        with:
+          bin: waline-mini
+          target: ${{ matrix.target }}
+          tar: unix
+          zip: windows
+          include: README.md
+          archive: $bin-$tag-${{ matrix.target }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload leancloud branch
+        if: ${{matrix.target == 'x86_64-unknown-linux-musl'}}
+        run: |
+          mkdir ./target/leancloud
+          cp ./assets/leanengine.yaml ./target/leancloud
+          cp ./target/x86_64-unknown-linux-musl/release/waline-mini ./target/leancloud
+          cd ./target/leancloud
+          git init
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          git add -A
+          git commit -m "leancloud"
+          git branch -M leancloud
+          git push https://${{secrets.PUSH_SECRET}}@github.com/${{github.repository}}.git leancloud:leancloud --force
