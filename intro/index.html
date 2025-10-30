@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waline Light - High Performance Comment System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3B82F6',
+            secondary: '#10B981',
+            dark: '#1E293B',
+            light: '#F8FAFC',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['Fira Code', 'monospace'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-gradient {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .bg-blur {
+        backdrop-filter: blur(8px);
+      }
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  </style>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    .feature-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(59, 130, 246, 0.04);
+    }
+    
+    .stat-item {
+      transition: transform 0.3s ease;
+    }
+    
+    .stat-item:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+  <!-- Hero Section -->
+  <header class="relative overflow-hidden bg-gradient-to-br from-dark to-gray-800 text-white">
+    <div class="absolute inset-0 bg-[url('https://picsum.photos/id/1/1920/1080')] opacity-10 bg-cover bg-center"></div>
+    <div class="container mx-auto px-4 py-20 md:py-32 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="inline-block mb-4 px-3 py-1 bg-primary/20 rounded-full text-primary font-mono text-sm">
+          Rust Implementation
+        </div>
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
+          Waline <span class="text-primary">Light</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto">
+          A high-performance Waline comment system with extremely low memory usage, perfect for resource-constrained servers.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4 mb-10">
+          <a href="https://github.com/zhx57/waline-light" target="_blank" class="px-8 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-primary/30 flex items-center justify-center gap-2">
+            <i class="fa fa-github"></i> GitHub
+          </a>
+          <a href="#features" class="px-8 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-lg font-medium transition-all border border-white/20 flex items-center justify-center gap-2">
+            <i class="fa fa-list"></i> Features
+          </a>
+        </div>
+        
+        <!-- Badges -->
+        <div class="flex flex-wrap justify-center gap-3 mb-8">
+          <img src="https://img.shields.io/github/v/release/zhx57/waline-light" alt="GitHub Release">
+          <img src="https://img.shields.io/github/issues/zhx57/waline-light" alt="GitHub Issues">
+          <img src="https://img.shields.io/github/license/zhx57/waline-light" alt="GitHub License">
+          <img src="https://img.shields.io/docker/image-size/zhx57/waline-light" alt="Docker Image Size">
+        </div>
+      </div>
+    </div>
+    
+    <!-- Wave Separator -->
+    <div class="absolute bottom-0 left-0 right-0">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" class="w-full h-auto fill-gray-50">
+        <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
+      </svg>
+    </div>
+  </header>
+
+  <!-- Memory Usage Highlight -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto bg-gradient-to-r from-blue-50 to-green-50 rounded-2xl p-8 shadow-sm border border-gray-100">
+        <div class="flex flex-col md:flex-row items-center gap-8">
+          <div class="flex-1">
+            <h3 class="text-2xl font-bold mb-3 text-dark">Extremely Low Memory Usage</h3>
+            <p class="text-gray-600 mb-4">
+              Uses only about <span class="font-mono font-bold text-primary">5.48MB</span> of memory, which is just 1/25 of the Node.js version's memory footprint.
+            </p>
+            <p class="text-gray-600">
+              Perfect for small servers and resource-constrained environments while maintaining full functionality.
+            </p>
+          </div>
+          <div class="w-full md:w-48 h-48 relative">
+            <div class="absolute inset-0 rounded-full border-8 border-gray-200"></div>
+            <div class="absolute inset-4 rounded-full border-8 border-primary" style="clip-path: polygon(0 0, 100% 0, 100% 4%, 0 4%)"></div>
+            <div class="absolute inset-0 flex items-center justify-center flex-col">
+              <span class="text-3xl font-bold text-primary">4%</span>
+              <span class="text-sm text-gray-500">of original</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Powerful Features</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          Implements most of the necessary APIs of the original Waline with high performance and low resource usage.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Feature Card 1 -->
+        <div class="feature-card bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+            <i class="fa fa-tachometer text-primary text-xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">High Performance</h3>
+          <p class="text-gray-600">
+            Rust implementation delivers exceptional performance with minimal resource consumption.
+          </p>
+        </div>
+        
+        <!-- Feature Card 2 -->
+        <div class="feature-card bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+            <i class="fa fa-rocket text-secondary text-xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Zero Dependency</h3>
+          <p class="text-gray-600">
+            No need to install Node.js environment, just an executable file is enough.
+          </p>
+        </div>
+        
+        <!-- Feature Card 3 -->
+        <div class="feature-card bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+            <i class="fa fa-exchange text-purple-600 text-xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Easy Replacement</h3>
+          <p class="text-gray-600">
+            Drop-in replacement for original Waline with compatible APIs.
+          </p>
+        </div>
+        
+        <!-- Feature Card 4 -->
+        <div class="feature-card bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+            <i class="fa fa-shield text-yellow-600 text-xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Security Features</h3>
+          <p class="text-gray-600">
+            Includes XSS protection, frequency limits, comment review, and anti-spam measures.
+          </p>
+        </div>
+        
+        <!-- Feature Card 5 -->
+        <div class="feature-card bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+            <i class="fa fa-comments text-red-600 text-xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Comment Features</h3>
+          <p class="text-gray-600">
+            Full support for pageview counters, article reactions, and comment formatting.
+          </p>
+        </div>
+        
+        <!-- Feature Card 6 -->
+        <div class="feature-card bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
+            <i class="fa fa-database text-indigo-600 text-xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Database Support</h3>
+          <p class="text-gray-600">
+            Supports SQLite and MySQL/MariaDB with potential for PostgreSQL support.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Feature Table -->
+      <div class="mt-16 overflow-hidden bg-white rounded-xl shadow-sm border border-gray-100">
+        <div class="p-6 border-b border-gray-100">
+          <h3 class="text-2xl font-bold">Feature Implementation Status</h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-4 font-semibold text-gray-600 border-b">Feature</th>
+                <th class="px-6 py-4 font-semibold text-gray-600 border-b">Availability</th>
+                <th class="px-6 py-4 font-semibold text-gray-600 border-b">Status</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">Pageview Counter</td>
+                <td class="px-6 py-4"><span class="text-green-600 font-medium">Fully</span></td>
+                <td class="px-6 py-4"><span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Stable</span></td>
+              </tr>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">Article Reactions</td>
+                <td class="px-6 py-4"><span class="text-green-600 font-medium">Fully</span></td>
+                <td class="px-6 py-4"><span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Stable</span></td>
+              </tr>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">Email Notification</td>
+                <td class="px-6 py-4"><span class="text-yellow-600 font-medium">Nearly</span></td>
+                <td class="px-6 py-4"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">In Progress</span></td>
+              </tr>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">OAuth</td>
+                <td class="px-6 py-4"><span class="text-green-600 font-medium">Fully</span></td>
+                <td class="px-6 py-4"><span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Stable</span></td>
+              </tr>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">Data Migration</td>
+                <td class="px-6 py-4"><span class="text-green-600 font-medium">Fully</span></td>
+                <td class="px-6 py-4"><span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Stable</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Start Section -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Quick Start</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          Get up and running with Waline Light in just a few simple steps.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto">
+        <!-- Binary Installation -->
+        <div class="bg-gray-50 rounded-xl p-6 border border-gray-100">
+          <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+            <i class="fa fa-file-executable-o text-primary"></i> Binary Installation
+          </h3>
+          <p class="text-gray-600 mb-4">
+            Download the appropriate binary for your platform from GitHub Releases.
+          </p>
+          <div class="bg-gray-900 rounded-lg p-4 mb-4 overflow-x-auto">
+            <pre class="text-gray-300 font-mono text-sm"><code># Setting environment variables
+export DATABASE_URL=sqlite:///path/to/waline.sqlite?mode=rwc
+export JWT_TOKEN=your_secret_key
+export SITE_NAME=your_site_name
+export SITE_URL=your_site_url
+
+# Start
+./waline-light</code></pre>
+          </div>
+          <a href="https://github.com/zhx57/waline-light/releases" target="_blank" class="text-primary hover:text-primary/80 font-medium flex items-center gap-1">
+            Download from GitHub <i class="fa fa-external-link text-xs"></i>
+          </a>
+        </div>
+        
+        <!-- Docker Installation -->
+        <div class="bg-gray-50 rounded-xl p-6 border border-gray-100">
+          <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+            <i class="fa fa-docker text-primary"></i> Docker Installation
+          </h3>
+          <p class="text-gray-600 mb-4">
+            Use Docker to quickly deploy Waline Light with minimal setup.
+          </p>
+          <div class="bg-gray-900 rounded-lg p-4 mb-4 overflow-x-auto">
+            <pre class="text-gray-300 font-mono text-sm"><code>services:
+  waline:
+    image: zhx57/waline-light:latest
+    container_name: waline-light
+    ports:
+      - "8360:8360"
+    volumes:
+      - waline-db:/app/db
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-sqlite:////app/db/waline.sqlite?mode=rwc}
+      - JWT_TOKEN=${JWT_TOKEN}
+      - SITE_NAME=${SITE_NAME}
+      - SITE_URL=${SITE_URL}
+    restart: unless-stopped
+
+volumes:
+  waline-db:
+    driver: local</code></pre>
+          </div>
+          <a href="https://hub.docker.com/r/zhx57/waline-light" target="_blank" class="text-primary hover:text-primary/80 font-medium flex items-center gap-1">
+            View on Docker Hub <i class="fa fa-external-link text-xs"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Configuration Section -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Configuration</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          Configure Waline Light using environment variables to suit your needs.
+        </p>
+      </div>
+      
+      <div class="max-w-5xl mx-auto overflow-hidden bg-white rounded-xl shadow-sm border border-gray-100">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-4 font-semibold text-gray-600 border-b">Variable</th>
+                <th class="px-6 py-4 font-semibold text-gray-600 border-b">Required</th>
+                <th class="px-6 py-4 font-semibold text-gray-600 border-b">Default</th>
+                <th class="px-6 py-4 font-semibold text-gray-600 border-b">Description</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 font-mono text-sm">DATABASE_URL</td>
+                <td class="px-6 py-4"><span class="text-red-600">✅</span></td>
+                <td class="px-6 py-4 font-mono text-sm text-gray-500">-</td>
+                <td class="px-6 py-4 text-gray-600">Database connection string</td>
+              </tr>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 font-mono text-sm">JWT_TOKEN</td>
+                <td class="px-6 py-4"><span class="text-red-600">✅</span></td>
+                <td class="px-6 py-4 font-mono text-sm text-gray-500">-</td>
+                <td class="px-6 py-4 text-gray-600">JWT signature key</td>
+              </tr>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 font-mono text-sm">SITE_NAME</td>
+                <td class="px-6 py-4"><span class="text-red-600">✅</span></td>
+                <td class="px-6 py-4 font-mono text-sm text-gray-500">-</td>
+                <td class="px-6 py-4 text-gray-600">Your site name</td>
+              </tr>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 font-mono text-sm">PORT</td>
+                <td class="px-6 py-4"><span class="text-gray-400">❌</span></td>
+                <td class="px-6 py-4 font-mono text-sm text-gray-500">8360</td>
+                <td class="px-6 py-4 text-gray-600">Listening port</td>
+              </tr>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 font-mono text-sm">IPQPS</td>
+                <td class="px-6 py-4"><span class="text-gray-400">❌</span></td>
+                <td class="px-6 py-4 font-mono text-sm text-gray-500">60</td>
+                <td class="px-6 py-4 text-gray-600">IP-based comment frequency limit</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          Find answers to common questions about Waline Light.
+        </p>
+      </div>
+      
+      <div class="max-w-3xl mx-auto space-y-6">
+        <!-- FAQ Item 1 -->
+        <div class="bg-gray-50 rounded-xl p-6 border border-gray-100">
+          <h3 class="text-xl font-semibold mb-2">How to migrate data from the original Waline?</h3>
+          <ol class="list-decimal pl-5 text-gray-600 space-y-2">
+            <li>Export JSON from the original Waline background administration page</li>
+            <li>Import JSON on the Waline Light background administration page</li>
+          </ol>
+        </div>
+        
+        <!-- FAQ Item 2 -->
+        <div class="bg-gray-50 rounded-xl p-6 border border-gray-100">
+          <h3 class="text-xl font-semibold mb-2">Which databases are supported?</h3>
+          <p class="text-gray-600">
+            SQLite and MySQL/MariaDB are supported. Compile features can be added to support PostgreSQL at any time.
+          </p>
+        </div>
+        
+        <!-- FAQ Item 3 -->
+        <div class="bg-gray-50 rounded-xl p-6 border border-gray-100">
+          <h3 class="text-xl font-semibold mb-2">How does Waline Light compare to the original?</h3>
+          <p class="text-gray-600">
+            Waline Light maintains the same core functionality as the original Waline but with significantly lower memory usage (only ~5MB compared to hundreds of MB for the Node.js version) and improved performance thanks to the Rust implementation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 bg-gradient-to-br from-primary/90 to-blue-700 text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Get Started?</h2>
+      <p class="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
+        Try Waline Light today and experience the power of a high-performance comment system with minimal resource usage.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href="https://github.com/zhx57/waline-light" target="_blank" class="px-8 py-3 bg-white text-primary hover:bg-gray-100 rounded-lg font-medium transition-all shadow-lg hover:shadow-black/10 flex items-center justify-center gap-2">
+          <i class="fa fa-github"></i> View on GitHub
+        </a>
+        <a href="https://github.com/zhx57/waline-light/blob/main/README.md" target="_blank" class="px-8 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-lg font-medium transition-all border border-white/20 flex items-center justify-center gap-2">
+          <i class="fa fa-book"></i> Read Documentation
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-gray-400 py-10">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-6 md:mb-0">
+          <h3 class="text-white text-xl font-bold mb-2">Waline Light</h3>
+          <p class="max-w-md">
+            A high-performance Waline comment system implemented in Rust, designed for efficiency and minimal resource usage.
+          </p>
+        </div>
+        <div class="flex flex-col items-center md:items-end">
+          <div class="flex gap-4 mb-4">
+            <a href="https://github.com/zhx57/waline-light" target="_blank" class="text-gray-400 hover:text-white transition-colors text-xl">
+              <i class="fa fa-github"></i>
+            </a>
+            <a href="https://github.com/zhx57/waline-light/issues" target="_blank" class="text-gray-400 hover:text-white transition-colors text-xl">
+              <i class="fa fa-issue-opened"></i>
+            </a>
+          </div>
+          <p>© 2023 zhx57. All rights reserved.</p>
+        </div>
+      </div>
+      <div class="mt-8 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
+        <a href="https://www.netlify.com">
+          <img src="https://www.netlify.com/assets/badges/netlify-badge-color-accent.svg" alt="Deploys by Netlify" />
+        </a>
+        <p class="text-sm">
+          Released under the <a href="https://github.com/zhx57/waline-light/blob/main/LICENSE" class="text-primary hover:underline">MIT License</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
