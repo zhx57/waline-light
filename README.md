@@ -6,9 +6,6 @@
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/zhx57/waline-light/total)
 ![GitHub License](https://img.shields.io/github/license/zhx57/waline-light)
 ![Code Lines](https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/zhx57/waline-light/badge?filter=.rs$)
-![Docker Image Size](https://img.shields.io/docker/image-size/zhx57/waline-light)
-![Docker Image Version](https://img.shields.io/docker/v/zhx57/waline-light?label=docker)
-
 
 > A high-performance Waline comment system implemented in Rust.
 
